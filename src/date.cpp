@@ -7,11 +7,13 @@ using namespace std;
 
 const char *ERR_INVALID_DATE = "Error: given date is invalid";
 
-Date::Date(int year, int month, int day) {
+Date::Date(int year, int month, int day) 
+{
   setDate(year, month, day);
 }
 
-void Date::setDate(int year, int month, int day) {
+void Date::setDate(int year, int month, int day) 
+{
   if (!ymdValidate(year, month, day)) {
     cerr << ERR_INVALID_DATE << endl; 
     exit(EXIT_FAILURE);     
@@ -22,31 +24,38 @@ void Date::setDate(int year, int month, int day) {
   day_m = day;
 }
 
-inline int Date::getMonth() const {
+inline int Date::getMonth() const 
+{
   return month_m;
 }
 
-inline int Date::getDay() const {
+inline int Date::getDay() const 
+{
   return day_m;
 }
 
-inline int Date::getYear() const {
+inline int Date::getYear() const 
+{
   return year_m;
 }
 
-std::string Date::getDateMDYNum() const {
+std::string Date::getDateMDYNum() const 
+{
   return format("{}/{}/{}", month_m, day_m, year_m);
 }
 
-std::string Date::getDateMDYAlphNum() const {
+std::string Date::getDateMDYAlphNum() const 
+{
   return format("{} {}, {}", toStrMonth(month_m), day_m, year_m);
 }
 
-std::string Date::getDateDMYAlphNum() const {
+std::string Date::getDateDMYAlphNum() const 
+{
   return format("{} {} {}", day_m, month_m, year_m);
 }
 
-bool Date::isLeapYear() const {
+bool Date::isLeapYear() const 
+{
   // if it is a leap year
   if (year_m % 4) 
   {
@@ -58,7 +67,8 @@ bool Date::isLeapYear() const {
   }
 }
 
-bool Date::isLeapYear(int year) const {
+bool Date::isLeapYear(int year) const 
+{
   // if it is a leap year
   if (year % 4) 
   {
@@ -70,20 +80,35 @@ bool Date::isLeapYear(int year) const {
   }
 }
 
-int Date::lastDay() const {
-  
+int Date::lastDay() const 
+{
+  if (isLeapYear() && month_m == FEBRUARY) 
+  {
+    return month_num_days[month_m] + 1;
+  }     
+
+  return month_num_days[month_m];
 }
 
-int Date::lastDay(int year, int month) const {
-  
+int Date::lastDay(int year, int month) const 
+{
+  if (isLeapYear(year) && month == FEBRUARY) 
+  {
+    return month_num_days[month] + 1;
+  }  
+
+  return month_num_days[month];
 }
 
-bool Date::ymdValidate(int year, int month, int day) const {
-  
+bool Date::ymdValidate(int year, int month, int day) const 
+{
+
 }
 
-string Date::toStrMonth(int month) const {
-  switch (month) {
+string Date::toStrMonth(int month) const 
+{
+  switch (month)
+  {
   case JANUARY:
     return string("January");
 
