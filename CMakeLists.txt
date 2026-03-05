@@ -3,8 +3,12 @@ cmake_minimum_required(VERSION 3.16)
 # Project name and language
 project(DateClass LANGUAGES CXX)
 
+# Make sure clandg picks up the include directories
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # Set C++ standard (change to 17 or 20 if you prefer)
-set(CMAKE_CXX_STANDARD 20)
+# using 23 so I can use the format function for string interpolation
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Add all source files

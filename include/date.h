@@ -11,9 +11,9 @@ enum Months {
 };
 
 class Date {
-  int year, month, day;
+  int year_m, month_m, day_m;
 public: 
-  Date(int year, int month, int day);
+  Date(int year = 1900, int month = 1, int day = 1);
 
   void setDate(int year, int month, int day);
 
@@ -31,7 +31,9 @@ public:
   int lastDay() const;
   int lastDay(int year, int month) const;
 private:
-  bool ymdValidate(int year, int month, int day); 
+  bool ymdValidate(int year, int month, int day) const; 
+
+  std::string toStrMonth(int month) const;
 };
 
 #endif
