@@ -43,7 +43,7 @@ std::string Date::getDateMDYAlphNum() const {
 }
 
 std::string Date::getDateDMYAlphNum() const {
-
+  return format("{} {} {}", day_m, month_m, year_m);
 }
 
 bool Date::isLeapYear() const {
@@ -63,7 +63,7 @@ int Date::lastDay(int year, int month) const {
 }
 
 bool Date::ymdValidate(int year, int month, int day) const {
-
+  
 }
 
 string Date::toStrMonth(int month) const {
