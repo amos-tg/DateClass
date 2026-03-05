@@ -102,7 +102,24 @@ int Date::lastDay(int year, int month) const
 
 bool Date::ymdValidate(int year, int month, int day) const 
 {
+  // check for all invalid months and for days before the first day of the month
+  if (month > 12 || month < 1 || day < 1) 
+  {
+    return false;  
+  } 
 
+  // check if greater than the top end of the day range for leap years
+  if (isLeapYear(year) && month == FEBRUARY && day > month_num_days[month] + 1)
+  {
+    return false;
+  }
+
+  // check if greater than the top end of the day range for non leap years
+  if (day > month_num_days[month]) {
+    return false;
+  } 
+
+  return true;
 }
 
 string Date::toStrMonth(int month) const 
