@@ -47,19 +47,35 @@ std::string Date::getDateDMYAlphNum() const {
 }
 
 bool Date::isLeapYear() const {
-
+  // if it is a leap year
+  if (year_m % 4) 
+  {
+    return true;  
+  }
+  else 
+  {
+    return false;
+  }
 }
 
 bool Date::isLeapYear(int year) const {
-
+  // if it is a leap year
+  if (year % 4) 
+  {
+    return true;  
+  }
+  else 
+  {
+    return false;
+  }
 }
 
 int Date::lastDay() const {
-
+  
 }
 
 int Date::lastDay(int year, int month) const {
-
+  
 }
 
 bool Date::ymdValidate(int year, int month, int day) const {
@@ -70,30 +86,42 @@ string Date::toStrMonth(int month) const {
   switch (month) {
   case JANUARY:
     return string("January");
+
   case FEBRUARY:
     return string("February");
+
   case MARCH: 
     return string("March");
+
   case APRIL:
     return string("April");
+
   case MAY:
     return string("May");
+
   case JUNE:
     return string("June");
+
   case JULY:
     return string("July");
+
   case AUGUST:
     return string("August");
+
   case SEPTEMBER:
     return string("September");
+
   case OCTOBER:
     return string("October");
+
   case NOVEMBER:
     return string("November");
+
   case DECEMBER:
     return string("December");
-  }
 
-  cerr << ERR_INVALID_DATE << endl;
-  exit(EXIT_FAILURE);
+  default:
+    cerr << ERR_INVALID_DATE << endl;
+    exit(EXIT_FAILURE);
+  }
 }
