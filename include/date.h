@@ -26,13 +26,13 @@ class Date
 {
   int year_m, month_m, day_m;
 public: 
-  Date(int year = 1900, int month = 1, int day = 1);
+  Date(int year = 1900, int month = JANUARY, int day = 1);
 
   void setDate(int year, int month, int day);
 
-  inline int getMonth() const;
-  inline int getDay() const;
-  inline int getYear() const;
+  int getMonth() const;
+  int getDay() const;
+  int getYear() const;
 
   std::string getDateMDYNum() const;
   std::string getDateMDYAlphNum() const;

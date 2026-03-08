@@ -24,17 +24,17 @@ void Date::setDate(int year, int month, int day)
   day_m = day;
 }
 
-inline int Date::getMonth() const 
+int Date::getMonth() const 
 {
   return month_m;
 }
 
-inline int Date::getDay() const 
+int Date::getDay() const 
 {
   return day_m;
 }
 
-inline int Date::getYear() const 
+int Date::getYear() const 
 {
   return year_m;
 }
