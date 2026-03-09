@@ -51,7 +51,7 @@ std::string Date::getDateMDYAlphNum() const
 
 std::string Date::getDateDMYAlphNum() const 
 {
-  return format("{} {} {}", day_m, month_m, year_m);
+  return format("{} {}, {}", day_m, toStrMonth(month_m), year_m);
 }
 
 bool Date::isLeapYear() const 

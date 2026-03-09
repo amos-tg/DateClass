@@ -10,6 +10,8 @@ const char *TEST_PASS = "Passed";
 const char *DEFAULT_TEST = "Test (Default Constructor): ";
 const char *SET_DATE_TEST = "Test (setDate method): ";
 const char *GET_DATE_MDY_NUM_TEST = "Test (getDateMDYNum method): ";
+const char *GET_DATE_MDY_ALPH_NUM_TEST = "Test (getDateMDYAlphNum): ";
+const char *GET_DATE_DMY_ALPH_NUM_TEST = "Test (getDateDMYAlphNum): ";
 
 int main(void) {
   cout << DEFAULT_TEST;
@@ -28,6 +30,14 @@ int main(void) {
 
   cout << GET_DATE_MDY_NUM_TEST;
   assert(tested.getDateMDYNum() == string("8/5/2026"));
+  cout << TEST_PASS << endl;
+
+  cout << GET_DATE_MDY_ALPH_NUM_TEST;
+  assert(tested.getDateMDYAlphNum() == string("August 5, 2026"));
+  cout << TEST_PASS << endl;
+
+  cout << GET_DATE_DMY_ALPH_NUM_TEST;
+  assert(tested.getDateDMYAlphNum() == string("5 August, 2026"));
   cout << TEST_PASS << endl;
 
   return 0;
