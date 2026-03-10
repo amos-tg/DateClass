@@ -9,7 +9,7 @@ using namespace std;
 const char *TEST_PASS = "Passed";
 
 const char *YMD_VALIDATE_TEST = "Test (ymdValidate method): ";
-const char *DEFAULT_TEST = "Test (Default Constructor): ";
+const char *DEFAULT_TEST = "Test (Default constructor): ";
 const char *SET_DATE_TEST = "Test (setDate method): ";
 const char *GET_DATE_MDY_NUM_TEST = "Test (getDateMDYNum method): ";
 const char *GET_DATE_MDY_ALPH_NUM_TEST = "Test (getDateMDYAlphNum): ";
@@ -59,16 +59,20 @@ int main(void) {
   assert(tested.getDateMDYNum() == string("2/29/2004"));
   cout << TEST_PASS << endl;
 
-  const char *month_names[] = {
+  const char *month_names[]
+  {
     "January", "February", "March", "April",
     "May", "June", "July", "August", 
-    "September", "October", "November", "December" }; 
+    "September", "October", "November", "December" 
+  }; 
 
   cout << TO_STR_MONTH_TEST;
-  for (int i {}; i < 12; ++i) {
+  for (int i {}; i < 12; ++i) 
+  {
     tested.setDate(2000, i + 1, 1);
     assert(tested.getDateDMYAlphNum() == format("1 {}, 2000", month_names[i]));
   }
+  cout << TEST_PASS << endl;
 
   return 0;
 }

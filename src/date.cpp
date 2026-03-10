@@ -56,29 +56,28 @@ std::string Date::getDateDMYAlphNum() const
 
 bool Date::isLeapYear() const 
 {
-  // if it is a leap year
-  if (year_m % 4) 
-  {
-    return true;  
-  }
-  else 
-  {
-    return false;
-  }
+  return isLeapYear(year_m);
 }
 
 bool Date::isLeapYear(int year) const 
 {
-  // if it is a leap year
   if (year % 4) 
-  {
-    return true;  
-  }
-  else 
   {
     return false;
   }
-}
+  else if (year % 100) 
+  {
+    return true;
+  }
+  else if (year % 400)
+  {
+    return false;
+  }
+  else 
+  {
+    return true;
+  }
+}             
 
 int Date::lastDay() const 
 {
@@ -108,16 +107,22 @@ bool Date::ymdValidate(int year, int month, int day) const
     return false;  
   } 
 
+  bool leap_feb { isLeapYear(year) && month == FEBRUARY };
+
+  // account for zero based indexing on month_num_days array in terms of the 
+  // one based enum of month names.
+  --month;
+
+  // check if greater than the top end of the day range for non leap years
+  if (day > month_num_days[month] && !leap_feb ) {
+    return false;
+  } 
+
   // check if greater than the top end of the day range for leap years
-  if (isLeapYear(year) && month == FEBRUARY && day > month_num_days[month] + 1)
+  if (leap_feb && day > month_num_days[month] + 1)
   {
     return false;
   }
-
-  // check if greater than the top end of the day range for non leap years
-  if (day > month_num_days[--month]) {
-    return false;
-  } 
 
   return true;
 }
