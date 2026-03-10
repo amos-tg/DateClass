@@ -115,7 +115,7 @@ bool Date::ymdValidate(int year, int month, int day) const
   }
 
   // check if greater than the top end of the day range for non leap years
-  if (day > month_num_days[month]) {
+  if (day > month_num_days[--month]) {
     return false;
   } 
 

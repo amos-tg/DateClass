@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cassert>
 #include <string>
+#include <format>
 
 using namespace std;
 
@@ -19,6 +20,12 @@ const char *LAST_DAY_LEAP_TEST = "Test (lastDay method on leap year): ";
 const char *TO_STR_MONTH_TEST = "Test (toStrMonth method): ";
 
 int main(void) {
+  cout << YMD_VALIDATE_TEST;
+  Date manual; 
+  manual.setDate(2004, FEBRUARY, 29);
+  assert(manual.getDateMDYNum() == string("2/29/2004"));
+  cout << TEST_PASS << endl;
+
   cout << DEFAULT_TEST;
   Date tested {};
   assert(tested.getYear() == 1900);
@@ -52,7 +59,16 @@ int main(void) {
   assert(tested.getDateMDYNum() == string("2/29/2004"));
   cout << TEST_PASS << endl;
 
-  int lastDay
+  const char *month_names[] = {
+    "January", "February", "March", "April",
+    "May", "June", "July", "August", 
+    "September", "October", "November", "December" }; 
+
+  cout << TO_STR_MONTH_TEST;
+  for (int i {}; i < 12; ++i) {
+    tested.setDate(2000, i + 1, 1);
+    assert(tested.getDateDMYAlphNum() == format("1 {}, 2000", month_names[i]));
+  }
 
   return 0;
 }

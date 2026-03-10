@@ -7,8 +7,7 @@ project(DateClass LANGUAGES CXX)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Set C++ standard (change to 17 or 20 if you prefer)
-# using 23 so I can use the format function for string interpolation
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Add all source files
