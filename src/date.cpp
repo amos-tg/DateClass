@@ -85,12 +85,7 @@ bool Date::isLeapYear(int year) const
 
 int Date::lastDay() const 
 {
-  if (isLeapYear() && month_m == FEBRUARY) 
-  {
-    return month_num_days[month_m] + 1;
-  }     
-
-  return month_num_days[month_m];
+  lastDay(year_m, month_m);
 }
 
 int Date::lastDay(int year, int month) const 
