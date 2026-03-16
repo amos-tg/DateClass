@@ -42,8 +42,14 @@ void paramConstructorTest(void);
 /// default date.
 void invalidConstructorTest(void); 
 
+/// tests the setDate(...) method from the Date class
 void setDateTest(void); 
-void leapDateTest();
+
+/// tests the isLeapYear methods from the Date class
+void leapYearTest(void);
+
+/// tests the lastDay methods from the Date class
+void lastDayTests(void);
 
 int main(void) 
 {
@@ -56,7 +62,6 @@ int main(void)
   defaultConstructorTest();
   paramConstructorTest();
   invalidConstructorTest();
-  leapDateTest();
 
 
   // this internally tests the isLeapYear function which has the same logic in
@@ -207,7 +212,18 @@ void leapYearTests(void)
   // as the int year argument, so there is no need to test it seperately unless
   // that changes.
 
-  cout << TEST_PASS;
+  cout << TEST_PASS << endl;
 }
 
-void 
+void lastDayTests(void) 
+{
+  cout << LAST_DAY_TEST;
+  assert(Date::lastDay(2024, JANUARY) == 31);
+  assert(Date::lastDay(2024, APRIL) == 30);
+  assert(Date::lastDay(1900, FEBRUARY) == 28);
+  assert(Date::lastDay(2000, FEBRUARY) == 29);
+
+  // don't need to test the no param overload because it uses the parameterized
+  // overload internally by passing through the class member variables.
+  cout << TEST_PASS << endl;
+} 

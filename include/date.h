@@ -42,7 +42,7 @@ public:
   static bool isLeapYear(int year);
 
   int lastDay() const;
-  int lastDay(int year, int month) const;
+  static int lastDay(int year, int month);
 
   /// - int month: month number (1-12).
   ///

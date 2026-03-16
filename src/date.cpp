@@ -84,7 +84,7 @@ bool Date::isLeapYear(int year) const
 }             
 
 int Date::lastDay() const 
-{
+{                          
   lastDay(year_m, month_m);
 }
 
