@@ -43,10 +43,17 @@ public:
 
   int lastDay() const;
   int lastDay(int year, int month) const;
+
+  /// - int month: month number (1-12).
+  ///
+  /// Invalid month numbers will cause program termination with an appropriate
+  /// error message.
+  ///
+  /// returns the string format of the month number passed in, i.e. 1 is
+  /// returned as a string containing "January". 
+  static std::string toStrMonth(int month);
 private:
   bool ymdValidate(int year, int month, int day) const; 
-
-  std::string toStrMonth(int month) const;
 };
 
 #endif

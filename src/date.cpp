@@ -15,8 +15,12 @@ Date::Date(int year, int month, int day)
 void Date::setDate(int year, int month, int day) 
 {
   if (!ymdValidate(year, month, day)) {
-    cerr << ERR_INVALID_DATE << endl; 
-    exit(EXIT_FAILURE);     
+    /// assign default date on failure
+    year_m = 1900;
+    month_m = JANUARY;
+    day_m = 1; 
+
+    return;
   }
 
   year_m = year;
@@ -127,7 +131,7 @@ bool Date::ymdValidate(int year, int month, int day) const
   return true;
 }
 
-string Date::toStrMonth(int month) const 
+string Date::toStrMonth(int month) 
 {
   switch (month)
   {
