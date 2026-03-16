@@ -5,8 +5,6 @@
 
 using namespace std;
 
-const char *ERR_INVALID_DATE = "Error: given date is invalid";
-
 Date::Date(int year, int month, int day) 
 {
   setDate(year, month, day);
@@ -14,8 +12,9 @@ Date::Date(int year, int month, int day)
 
 void Date::setDate(int year, int month, int day) 
 {
+  // check if it's an invalid date
   if (!ymdValidate(year, month, day)) {
-    // assign default date on failure
+    // assign default date to an invalid input
     year_m = 1900;
     month_m = JANUARY;
     day_m = 1; 
@@ -23,6 +22,7 @@ void Date::setDate(int year, int month, int day)
     return;
   }
 
+  // assign the date based on the arguments
   year_m = year;
   month_m = month; 
   day_m = day;
@@ -58,6 +58,7 @@ std::string Date::getDateDMYAlphNum() const
   return format("{} {}, {}", day_m, toStrMonth(month_m), year_m);
 }
 
+// wrapper
 bool Date::isLeapYear() const 
 {
   return isLeapYear(year_m);
@@ -67,18 +68,24 @@ bool Date::isLeapYear(int year)
 {
   if (year % 4) 
   {
+    // if there is a remainder when divided by 4 it is not a leap year
     return false;
   }
   else if (year % 100) 
   {
+    // if there is no remainder when divided by 4 and a remainder when divided
+    // by 100 it is a leap year
     return true;
   }
   else if (year % 400)
   {
+    // if there is no remainder when divided by 4 and 100, but there is a
+    // remainder when divided by 400, then it is not a leap year.
     return false;
   }
   else 
   {
+    // If there's no remainder when divided by 4, 100, and 400, it's a leap year
     return true;
   }
 }             
@@ -90,11 +97,16 @@ int Date::lastDay() const
 
 int Date::lastDay(int year, int month)
 {
+  // month - 1 to account for one based month enum conversion to zero based
+  // month days enum. 
+  
+  // if it's a leap year and february their is one more day than usual
   if (isLeapYear(year) && month == FEBRUARY) 
   {
     return month_num_days[month - 1] + 1;
   }  
 
+  // index into the total number of days in a month array.
   return month_num_days[month - 1];
 }
 
@@ -106,6 +118,8 @@ bool Date::ymdValidate(int year, int month, int day) const
     return false;  
   } 
 
+  // store the leap year conditional output for reuse so month var can be
+  // manipulated more clearly.
   bool leap_feb { isLeapYear(year) && month == FEBRUARY };
 
   // account for zero based indexing on month_num_days array in terms of the 
@@ -128,6 +142,9 @@ bool Date::ymdValidate(int year, int month, int day) const
 
 string Date::toStrMonth(int month) 
 {
+  const char *ERR_INVALID_DATE = "Error: given date is invalid";
+
+  // convert the Months enum values into their string equivalents 
   switch (month)
   {
   case JANUARY:
@@ -166,6 +183,7 @@ string Date::toStrMonth(int month)
   case DECEMBER:
     return string("December");
 
+  // exit if it's an invalid month
   default:
     cerr << ERR_INVALID_DATE << endl;
     exit(EXIT_FAILURE);
