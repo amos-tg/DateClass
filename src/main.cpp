@@ -8,8 +8,14 @@ using namespace std;
 
 const char *TEST_PASS = "Passed";
 
-const char *DEFAULT_TEST = "Test (Default Date class constructor): ";
-const char *PARAM_TEST = "Test (Parameterized Date class constructor): ";
+const char *DEFAULT_CONSTRUCTOR_TEST = 
+  "Test (Default Date class constructor): ";
+const char *PARAM_CONSTRUCTOR_TEST = 
+  "Test (Parameterized Date class constructor): ";
+const char *INVALID_CONSTRUCTOR_TEST =
+  "Test (Invalid Parameterized Date class constructor): ";
+const char *LEAP_YEAR_TEST =
+  "Test (Date class isLeapYear methods): ";
 
 const char *YMD_VALIDATE_TEST = "Test (ymdValidate method): ";
 
@@ -32,6 +38,13 @@ void defaultConstructorTest(void);
 /// tests the parameterized constructor for the Date class.
 void paramConstructorTest(void);
 
+/// tests to ensure invalid arguments to Date class constructor produce the
+/// default date.
+void invalidConstructorTest(void); 
+
+void setDateTest(void); 
+void leapDateTest();
+
 int main(void) 
 {
   cout << YMD_VALIDATE_TEST;
@@ -42,6 +55,9 @@ int main(void)
 
   defaultConstructorTest();
   paramConstructorTest();
+  invalidConstructorTest();
+  leapDateTest();
+
 
   // this internally tests the isLeapYear function which has the same logic in
   // it's overload, so I will omit the tests for those.
@@ -68,22 +84,29 @@ int main(void)
   return 0;
 }
 
+// the int args for ymd are a bit redundant but reduce coupling with the class
+// and seem appropriate since performance isn't important here.
+bool testOutput(Date &date, int year, int month, int day) 
+{
+  string month_str = Date::toStrMonth(month);
+  assert(date.getDateMDYNum() == format("{}/{}/{}", month, day, year));
+  assert(date.getDateMDYAlphNum() == format("{} {}, {}", month_str, day, year));
+  assert(date.getDateDMYAlphNum() == format("{} {}, {}", day, month_str, year));
+}
+
 void defaultConstructorTest(void) 
 {
-  cout << DEFAULT_TEST;
+  cout << DEFAULT_CONSTRUCTOR_TEST;
   Date tested {};
   assert(tested.getYear() == 1900);
   assert(tested.getMonth() == JANUARY);
   assert(tested.getDay() == 1);
   cout << TEST_PASS << endl;
-
-
-  return;
 }
 
 void paramConstructorTest(void) 
 {
-  cout << PARAM_TEST;
+  cout << PARAM_CONSTRUCTOR_TEST;
   Date tested[]
   { 
     Date(2021, FEBRUARY, 29), 
@@ -113,12 +136,78 @@ void paramConstructorTest(void)
   cout << TEST_PASS << endl;
 }
 
-// the int args for ymd are a bit redundant but reduce coupling with the class
-// and seem appropriate since performance isn't important here.
-bool testOutput(Date &date, int year, int month, int day) 
+void invalidConstructorTest(void) 
 {
-  string month_str = Date::toStrMonth(month);
-  assert(date.getDateMDYNum() == format("{}/{}/{}", month, day, year));
-  assert(date.getDateMDYAlphNum() == format("{} {}, {}", month_str, day, year));
-  assert(date.getDateDMYAlphNum() == format("{} {}, {}", day, month_str, year));
+  cout << INVALID_CONSTRUCTOR_TEST;
+  Date tested { 1900, 0, 1 };
+  assert(tested.getMonth() == JANUARY);
+  Date tested1 { 1900, 13, 1 };
+  assert(tested1.getMonth() == JANUARY);
+  // no invalid years defined for the project. 
+  
+  // output validation test
+  assert(testOutput(tested1, 1900, JANUARY, 1)); 
+  cout << TEST_PASS << endl;
 }
+
+void setDateTest(void) 
+{
+  // valid tests
+  cout << SET_DATE_TEST;
+  Date tested {};  
+  tested.setDate(1901, MAY, 3);
+  assert(tested.getYear() == 1901);
+  assert(tested.getMonth() == MAY);
+  assert(tested.getDay() == 3);
+  assert(testOutput(tested, 1901, MAY, 3));
+
+  // invalid tests
+  
+  // invalid month -- too small
+  tested.setDate(1901, 0, 3);
+  assert(tested.getMonth() == JANUARY);
+
+  // invalid month -- too large
+  tested.setDate(1901, 13, 3); 
+  assert(tested.getMonth() == JANUARY);
+
+  // invalid day test 
+  tested.setDate(1901, APRIL, 32);
+  assert(tested.getDay() == 1);
+
+  // invalid day test for 30 day month 
+  tested.setDate(1901, APRIL, 31);
+  assert(tested.getDay() == 1);
+
+  // invalid february day test
+  tested.setDate(1901, FEBRUARY, 30);
+  assert(tested.getDay() == 1);
+
+  // confirm the object returns to default date
+  assert(testOutput(tested, 1900, JANUARY, 1));
+  
+  cout << tested.getDateMDYNum() << " : " << TEST_PASS << endl;
+}
+
+void leapYearTests(void)
+{
+
+  cout << LEAP_YEAR_TEST;
+  // should be a leap year
+  assert(Date::isLeapYear(2024));
+
+  // shouldn't be a leap year
+  assert(!Date::isLeapYear(2023));
+
+  // century rule tests
+  assert(!Date::isLeapYear(1900));
+  assert(Date::isLeapYear(2000));
+
+  // isLeapYear() calls isLeapYear(int year) internally with the year_m member
+  // as the int year argument, so there is no need to test it seperately unless
+  // that changes.
+
+  cout << TEST_PASS;
+}
+
+void 

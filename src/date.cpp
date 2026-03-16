@@ -15,7 +15,7 @@ Date::Date(int year, int month, int day)
 void Date::setDate(int year, int month, int day) 
 {
   if (!ymdValidate(year, month, day)) {
-    /// assign default date on failure
+    // assign default date on failure
     year_m = 1900;
     month_m = JANUARY;
     day_m = 1; 

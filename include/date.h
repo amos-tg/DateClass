@@ -39,7 +39,7 @@ public:
   std::string getDateDMYAlphNum() const;
 
   bool isLeapYear() const;
-  bool isLeapYear(int year) const;
+  static bool isLeapYear(int year);
 
   int lastDay() const;
   int lastDay(int year, int month) const;
