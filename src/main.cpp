@@ -12,21 +12,12 @@ const char *DEFAULT_CONSTRUCTOR_TEST =
   "Test (Default Date class constructor): ";
 const char *PARAM_CONSTRUCTOR_TEST = 
   "Test (Parameterized Date class constructor): ";
-const char *INVALID_CONSTRUCTOR_TEST =
+const char *INVALID_CONSTRUCTOR_TEST = 
   "Test (Invalid Parameterized Date class constructor): ";
-const char *LEAP_YEAR_TEST =
-  "Test (Date class isLeapYear methods): ";
-
-const char *YMD_VALIDATE_TEST = "Test (ymdValidate method): ";
-
-const char *SET_DATE_TEST = "Test (setDate method): ";
-const char *GET_DATE_MDY_NUM_TEST = "Test (getDateMDYNum method): ";
-const char *GET_DATE_MDY_ALPH_NUM_TEST = "Test (getDateMDYAlphNum): ";
-const char *GET_DATE_DMY_ALPH_NUM_TEST = "Test (getDateDMYAlphNum): ";
-const char *SET_DATE_LEAP_TEST = "Test (setDate method on leap year): ";
-const char *LAST_DAY_TEST = "Test (lastDay method): ";
-const char *LAST_DAY_LEAP_TEST = "Test (lastDay method on leap year): ";
-const char *TO_STR_MONTH_TEST = "Test (toStrMonth method): ";
+const char *LEAP_YEAR_TEST = "Test (Date class isLeapYear methods): ";
+const char *EDGE_CASE_TEST = "Test (Date class common edge cases): ";
+const char *LAST_DAY_TEST = "Test (Date class lastDay methods): ";
+const char *SET_DATE_TEST = "Test (Date Class setDate method): ";
 
 /// asserts that the output of all string returning output methods for the Date
 /// class align with expectations based on the given year month and day.
@@ -49,45 +40,30 @@ void setDateTest(void);
 void leapYearTest(void);
 
 /// tests the lastDay methods from the Date class
-void lastDayTests(void);
+void lastDayTest(void);
 
 /// tests a variety of edge cases from the instructions
-void edgeCaseTests(void);
+void edgeCaseTest(void);
 
 int main(void) 
 {
-  cout << YMD_VALIDATE_TEST;
-  Date manual; 
-  manual.setDate(2004, FEBRUARY, 29);
-  assert(manual.getDateMDYNum() == string("2/29/2004"));
-  cout << TEST_PASS << endl;
-
   defaultConstructorTest();
   paramConstructorTest();
   invalidConstructorTest();
 
+  setDateTest();
 
-  // this internally tests the isLeapYear function which has the same logic in
-  // it's overload, so I will omit the tests for those.
-  cout << SET_DATE_LEAP_TEST;
-  tested.setDate(2004, FEBRUARY, 29);
-  assert(tested.getDateMDYNum() == string("2/29/2004"));
-  cout << TEST_PASS << endl;
+  leapYearTest();
 
-  const char *month_names[]
-  {
-    "January", "February", "March", "April",
-    "May", "June", "July", "August", 
-    "September", "October", "November", "December" 
-  }; 
+  lastDayTest();
 
-  cout << TO_STR_MONTH_TEST;
-  for (int i {}; i < 12; ++i) 
-  {
-    tested.setDate(2000, i + 1, 1);
-    assert(tested.getDateDMYAlphNum() == format("1 {}, 2000", month_names[i]));
-  }
-  cout << TEST_PASS << endl;
+  edgeCaseTest();
+
+  // Date class getters are tested in almost all of the above tests because 
+  // they are used internally.
+  
+  // Date class output functions are all tested in testOutput which is called 
+  // frequently in the above tests internally.
 
   return 0;
 }
@@ -117,14 +93,14 @@ void paramConstructorTest(void)
   cout << PARAM_CONSTRUCTOR_TEST;
   Date tested[]
   { 
-    Date(2021, FEBRUARY, 29), 
+    Date(2021, FEBRUARY, 28), 
     Date(2243, AUGUST, 1), 
     Date(9999, MAY, 17),
   };
 
   int test_vals[]
   {
-    2021, FEBRUARY, 29,
+    2021, FEBRUARY, 28,
     2243, AUGUST, 1,
     9999, MAY, 17,
   };
@@ -197,9 +173,8 @@ void setDateTest(void)
   cout << tested.getDateMDYNum() << " : " << TEST_PASS << endl;
 }
 
-void leapYearTests(void)
+void leapYearTest(void)
 {
-
   cout << LEAP_YEAR_TEST;
   // should be a leap year
   assert(Date::isLeapYear(2024));
@@ -218,7 +193,7 @@ void leapYearTests(void)
   cout << TEST_PASS << endl;
 }
 
-void lastDayTests(void) 
+void lastDayTest(void) 
 {
   cout << LAST_DAY_TEST;
   assert(Date::lastDay(2024, JANUARY) == 31);
@@ -231,8 +206,9 @@ void lastDayTests(void)
   cout << TEST_PASS << endl;
 } 
 
-void edgeCaseTests(void)
+void edgeCaseTest(void)
 {
+  cout << EDGE_CASE_TEST;
   Date tested { 1900, APRIL, 30 };
   testOutput(tested, 1900, APRIL, 30);
   tested.setDate(1900, APRIL, 31);
@@ -253,4 +229,5 @@ void edgeCaseTests(void)
 
   tested.setDate(2000, FEBRUARY, 30);
   testOutput(tested, 1900, JANUARY, 1);
+  cout << TEST_PASS << endl;
 }

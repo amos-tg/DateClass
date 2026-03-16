@@ -63,7 +63,7 @@ bool Date::isLeapYear() const
   return isLeapYear(year_m);
 }
 
-bool Date::isLeapYear(int year) const 
+bool Date::isLeapYear(int year)
 {
   if (year % 4) 
   {
@@ -85,17 +85,17 @@ bool Date::isLeapYear(int year) const
 
 int Date::lastDay() const 
 {                          
-  lastDay(year_m, month_m);
+  return lastDay(year_m, month_m);
 }
 
-int Date::lastDay(int year, int month) const 
+int Date::lastDay(int year, int month)
 {
   if (isLeapYear(year) && month == FEBRUARY) 
   {
-    return month_num_days[month] + 1;
+    return month_num_days[month - 1] + 1;
   }  
 
-  return month_num_days[month];
+  return month_num_days[month - 1];
 }
 
 bool Date::ymdValidate(int year, int month, int day) const 
