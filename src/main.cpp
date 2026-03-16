@@ -72,6 +72,8 @@ int main(void)
 // and seem appropriate since performance isn't important here.
 void testOutput(Date &date, int year, int month, int day) 
 {
+  // asserts that output of the string producing methods matches the expected
+  // behavior of the string formatting based on the year, month, and day.
   string month_str = Date::toStrMonth(month);
   assert(date.getDateMDYNum() == format("{}/{}/{}", month, day, year));
   assert(date.getDateMDYAlphNum() == format("{} {}, {}", month_str, day, year));
@@ -81,6 +83,10 @@ void testOutput(Date &date, int year, int month, int day)
 void defaultConstructorTest(void) 
 {
   cout << DEFAULT_CONSTRUCTOR_TEST;
+  // make sure the default constructor sets the date to:
+  // year: 1900,
+  // month: January,
+  // day: 1,
   Date tested {};
   assert(tested.getYear() == 1900);
   assert(tested.getMonth() == JANUARY);
@@ -98,6 +104,7 @@ void paramConstructorTest(void)
     Date(9999, MAY, 17),
   };
 
+  // mirror of the values inside the tested dates array, ordered
   int test_vals[]
   {
     2021, FEBRUARY, 28,
@@ -105,16 +112,21 @@ void paramConstructorTest(void)
     9999, MAY, 17,
   };
  
+  // for each Date make sure that the values are set properly using the getters
+  // and the string outputting methods.
   for (int i {}; Date &dref: tested)
   {
+    // set the year month and day for clarity
     int year { test_vals[i++] }; 
     int month { test_vals[i++] };
     int day { test_vals[i++] };
 
+    // check the values with the getters
     assert(dref.getYear() == year);
     assert(dref.getMonth() == month);
     assert(dref.getDay() == day);
 
+    // check the values with the string outputters
     testOutput(dref, year, month, day);
   }
   cout << TEST_PASS << endl;
@@ -123,13 +135,21 @@ void paramConstructorTest(void)
 void invalidConstructorTest(void) 
 {
   cout << INVALID_CONSTRUCTOR_TEST;
+  // invalid month test
   Date tested { 1900, 0, 1 };
   assert(tested.getMonth() == JANUARY);
   Date tested1 { 1900, 13, 1 };
   assert(tested1.getMonth() == JANUARY);
+  
+  // invalid day test
+  Date tested2 { 1900, JANUARY, 0 };
+  assert(tested2.getDay() == 1);
+  Date tested3 { 1900, JANUARY, 40 };
+  assert(tested3.getDay() == 40);
+
   // no invalid years defined for the project. 
   
-  // output validation test
+  // output validation and reset test
   testOutput(tested1, 1900, JANUARY, 1); 
   cout << TEST_PASS << endl;
 }
@@ -196,6 +216,9 @@ void leapYearTest(void)
 void lastDayTest(void) 
 {
   cout << LAST_DAY_TEST;
+
+  // check that lastDay returns the right day for a variety of leap year and non
+  // leap year dates.
   assert(Date::lastDay(2024, JANUARY) == 31);
   assert(Date::lastDay(2024, APRIL) == 30);
   assert(Date::lastDay(1900, FEBRUARY) == 28);
@@ -209,24 +232,31 @@ void lastDayTest(void)
 void edgeCaseTest(void)
 {
   cout << EDGE_CASE_TEST;
+
+  // check that 4/30 valid; 4/31 invalid
   Date tested { 1900, APRIL, 30 };
   testOutput(tested, 1900, APRIL, 30);
   tested.setDate(1900, APRIL, 31);
   testOutput(tested, 1900, JANUARY, 1);
 
+  // check that 6/30 valid; 6/31 invalid
   tested.setDate(1900, JUNE, 30);
   testOutput(tested, 1900, JUNE, 30);
   tested.setDate(1900, JUNE, 31);
   testOutput(tested, 1900, JANUARY, 1);
 
+  // check that 2/28 is valid in non-leap year
   tested.setDate(1900, FEBRUARY, 28);
   testOutput(tested, 1900, FEBRUARY, 28);
+  // check that 2/29 is invalid in non-leap year
   tested.setDate(1900, FEBRUARY, 29);
   testOutput(tested, 1900, JANUARY, 1);
 
+  // check that 2/29 is valid in leap year
   tested.setDate(2000, FEBRUARY, 29);
   testOutput(tested, 2000, FEBRUARY, 29);
 
+  // check that 2/30 is always invalid
   tested.setDate(2000, FEBRUARY, 30);
   testOutput(tested, 1900, JANUARY, 1);
   cout << TEST_PASS << endl;
