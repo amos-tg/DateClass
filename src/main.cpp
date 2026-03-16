@@ -30,7 +30,7 @@ const char *TO_STR_MONTH_TEST = "Test (toStrMonth method): ";
 
 /// asserts that the output of all string returning output methods for the Date
 /// class align with expectations based on the given year month and day.
-bool testOutput(Date &date, int year, int month, int day);
+void testOutput(Date &date, int year, int month, int day);
 
 /// tests the default constructor for the Date class
 void defaultConstructorTest(void);
@@ -50,6 +50,9 @@ void leapYearTest(void);
 
 /// tests the lastDay methods from the Date class
 void lastDayTests(void);
+
+/// tests a variety of edge cases from the instructions
+void edgeCaseTests(void);
 
 int main(void) 
 {
@@ -91,7 +94,7 @@ int main(void)
 
 // the int args for ymd are a bit redundant but reduce coupling with the class
 // and seem appropriate since performance isn't important here.
-bool testOutput(Date &date, int year, int month, int day) 
+void testOutput(Date &date, int year, int month, int day) 
 {
   string month_str = Date::toStrMonth(month);
   assert(date.getDateMDYNum() == format("{}/{}/{}", month, day, year));
@@ -136,7 +139,7 @@ void paramConstructorTest(void)
     assert(dref.getMonth() == month);
     assert(dref.getDay() == day);
 
-    assert(testOutput(dref, year, month, day));
+    testOutput(dref, year, month, day);
   }
   cout << TEST_PASS << endl;
 }
@@ -151,7 +154,7 @@ void invalidConstructorTest(void)
   // no invalid years defined for the project. 
   
   // output validation test
-  assert(testOutput(tested1, 1900, JANUARY, 1)); 
+  testOutput(tested1, 1900, JANUARY, 1); 
   cout << TEST_PASS << endl;
 }
 
@@ -164,7 +167,7 @@ void setDateTest(void)
   assert(tested.getYear() == 1901);
   assert(tested.getMonth() == MAY);
   assert(tested.getDay() == 3);
-  assert(testOutput(tested, 1901, MAY, 3));
+  testOutput(tested, 1901, MAY, 3);
 
   // invalid tests
   
@@ -189,7 +192,7 @@ void setDateTest(void)
   assert(tested.getDay() == 1);
 
   // confirm the object returns to default date
-  assert(testOutput(tested, 1900, JANUARY, 1));
+  testOutput(tested, 1900, JANUARY, 1);
   
   cout << tested.getDateMDYNum() << " : " << TEST_PASS << endl;
 }
@@ -227,3 +230,27 @@ void lastDayTests(void)
   // overload internally by passing through the class member variables.
   cout << TEST_PASS << endl;
 } 
+
+void edgeCaseTests(void)
+{
+  Date tested { 1900, APRIL, 30 };
+  testOutput(tested, 1900, APRIL, 30);
+  tested.setDate(1900, APRIL, 31);
+  testOutput(tested, 1900, JANUARY, 1);
+
+  tested.setDate(1900, JUNE, 30);
+  testOutput(tested, 1900, JUNE, 30);
+  tested.setDate(1900, JUNE, 31);
+  testOutput(tested, 1900, JANUARY, 1);
+
+  tested.setDate(1900, FEBRUARY, 28);
+  testOutput(tested, 1900, FEBRUARY, 28);
+  tested.setDate(1900, FEBRUARY, 29);
+  testOutput(tested, 1900, JANUARY, 1);
+
+  tested.setDate(2000, FEBRUARY, 29);
+  testOutput(tested, 2000, FEBRUARY, 29);
+
+  tested.setDate(2000, FEBRUARY, 30);
+  testOutput(tested, 1900, JANUARY, 1);
+}
