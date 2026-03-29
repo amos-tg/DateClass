@@ -48,11 +48,11 @@ public:
   Date& operator--(void);
   Date operator--(int);
 
-  friend Date operator-(Date& lhs, Date& rhs);
+  friend long int operator-(Date& lhs, Date& rhs);
 
-  friend void operator<<(std::ostream ostream, Date& date);
+  friend Date& operator<<(std::ostream ostream, Date& date);
 
-  friend void operator>>(std::istream istream, Date& date);  
+  friend Date& operator>>(std::istream istream, Date& date);  
 
   /// - int year : the year portion of the date
   /// - int month : the month portion of the date
@@ -74,6 +74,8 @@ public:
 
   /// returns the currently stored year member.
   int getYear() const;
+
+  static long int getTotalDays(const Date&);
 
   /// returns a string date in the following format: 
   /// MonthNumber/DayNumber/YearNumber

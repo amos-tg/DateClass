@@ -29,11 +29,12 @@ Date& Date::operator--(void) {
 Date Date::operator--(int) {
   Date copy = *this;
   subOneDay();
-  return copy;
 }
 
-Date Date::operator-(Date& rhs) {
-
+long int operator-(Date& lhs, Date& rhs) {
+  // convert each date into a total number of days and subtract the smaller one
+  // from the larger one  to get the number of days between them.
+  return Date::getTotalDays(lhs) - Date::getTotalDays(rhs);
 } 
 
 void Date::setDate(int year, int month, int day) 
@@ -67,6 +68,32 @@ int Date::getDay() const
 int Date::getYear() const 
 {
   return year_m;
+}
+
+long int Date::getTotalDays(const Date& date)
+{
+  // account for days into current month
+  long int total_days = date.day_m;  
+
+  // -2 because, 1->0 based indexing && current month account for^^^
+  for (int month { date.month_m - 2 }; month > 0; --month)
+    total_days += month_num_days[month];    
+
+  // get the number of days into the year
+  if (date.isLeapYear() && date.month_m >= FEBRUARY) 
+    ++total_days;
+
+  // get the number of days from the number of years
+  for (int year { date.year_m }; year > 0; --year)
+  {
+    // handle leap years
+    if (date.isLeapYear())
+      total_days += 366;
+    else 
+      total_days += 365;
+  }
+
+  return total_days;
 }
 
 std::string Date::getDateMDYNum() const 
