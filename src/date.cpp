@@ -11,22 +11,25 @@ Date::Date(int year, int month, int day)
 }
 
 Date& Date::operator++(void) {
-  addDay();
+  addOneDay();
   return *this;
 }
 
 Date Date::operator++(int) {
   Date copy = *this;
-  addDay();
+  addOneDay();
   return copy;
 }
 
 Date& Date::operator--(void) {
-
+  subOneDay();
+  return *this;
 }
 
 Date Date::operator--(int) {
-
+  Date copy = *this;
+  subOneDay();
+  return copy;
 }
 
 Date Date::operator-(Date& rhs) {
@@ -219,12 +222,15 @@ void Date::addOneDay(void)
   {
     day_m = 1;
     month_m = 1;
+    ++year_m;
+
     return;
   } 
   else if (day_m == this->lastDay())
   {
-    ++month_m;
     day_m = 1;
+    ++month_m;
+
     return;
   }
 
@@ -233,6 +239,18 @@ void Date::addOneDay(void)
 
 void Date::subOneDay(void)
 {
+  if (day_m == 1 && month_m == 1)
+  {
+    --year_m;
+    month_m = 12;
+    day_m = month_num_days[month_m - 1];
+  }
+  else if (day_m == 1)
+  {
+    --month_m;
+    day_m = month_num_days[month_m -1];
+  }
 
+  --day_m;
 }
 
