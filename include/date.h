@@ -5,6 +5,7 @@
 
 #include <string>
 #include <array>
+#include <iostream>
 
 /// 1-12 month to integer enumeration, JANUARY = 1, FEBRUARY = 2, etc... 
 enum Months 
@@ -40,6 +41,18 @@ public:
   /// consideration. If the month or day is invalid, the default date, January
   /// 1st, 1900 is set. 
   Date(int year = 1900, int month = JANUARY, int day = 1);
+
+  Date& operator++(void);
+  Date operator++(int);
+
+  Date& operator--(void);
+  Date operator--(int);
+
+  friend Date operator-(Date& lhs, Date& rhs);
+
+  friend void operator<<(std::ostream ostream, Date& date);
+
+  friend void operator>>(std::istream istream, Date& date);  
 
   /// - int year : the year portion of the date
   /// - int month : the month portion of the date
@@ -107,6 +120,14 @@ private:
   /// represents a valid gregorian calendar date. Returns true for a valid
   /// date, and false for an invalid date.  
   bool ymdValidate(int year, int month, int day) const; 
+
+  /// helper function for prefixed and postfixed ++ operators that adds a day
+  /// to thedate.
+  void addOneDay(void);
+
+  /// helper function for prefixed and postfixed -- operators that subtracts a
+  /// day from the date. 
+  void subOneDay(void);
 };
 
 #endif

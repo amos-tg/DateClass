@@ -10,6 +10,29 @@ Date::Date(int year, int month, int day)
   setDate(year, month, day);
 }
 
+Date& Date::operator++(void) {
+  addDay();
+  return *this;
+}
+
+Date Date::operator++(int) {
+  Date copy = *this;
+  addDay();
+  return copy;
+}
+
+Date& Date::operator--(void) {
+
+}
+
+Date Date::operator--(int) {
+
+}
+
+Date Date::operator-(Date& rhs) {
+
+} 
+
 void Date::setDate(int year, int month, int day) 
 {
   // check if it's an invalid date
@@ -189,3 +212,27 @@ string Date::toStrMonth(int month)
     exit(EXIT_FAILURE);
   }
 }
+
+void Date::addOneDay(void) 
+{
+  if (day_m == this->lastDay() && month_m == 12) 
+  {
+    day_m = 1;
+    month_m = 1;
+    return;
+  } 
+  else if (day_m == this->lastDay())
+  {
+    ++month_m;
+    day_m = 1;
+    return;
+  }
+
+  ++day_m;
+}
+
+void Date::subOneDay(void)
+{
+
+}
+
