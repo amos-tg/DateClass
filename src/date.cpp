@@ -72,8 +72,17 @@ istream& operator>>(istream& istream, Date& date)
   {
     cout << "What is the current month of the year?: ";
     cout.flush();
-    istream >> date.month_m;
+    istream >> date_val;
   }
+  date.month_m = date_val;
+
+  for (; date_val > 0 && date.year_m > 0;)
+  {
+    cout << "What is the current year?: ";
+    cout.flush();
+    istream >> date_val;
+  }
+  date.year_m = date_val;
 
   return istream;
 }
