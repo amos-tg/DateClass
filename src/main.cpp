@@ -145,7 +145,7 @@ void invalidConstructorTest(void)
   Date tested2 { 1900, JANUARY, 0 };
   assert(tested2.getDay() == 1);
   Date tested3 { 1900, JANUARY, 40 };
-  assert(tested3.getDay() == 40);
+  assert(tested3.getDay() == 1);
 
   // no invalid years defined for the project. 
   
