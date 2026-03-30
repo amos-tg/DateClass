@@ -294,11 +294,14 @@ void edgeCaseTest(void)
 void streamOvldTest(void)
 {
   cout << STREAM_OVLD_TEST << '\n';
-  // create a date using the default constructor and display it.
-  cout << Date {} << endl;
+  Date test {};
 
-  // create a date using the parameterized constructor and display it
-  cout << Date { 2005, AUGUST, 1 } << endl;
+  // read in a date
+  cin >> test;
+
+  // display the date
+  cout << test << endl;
+
   cout << TEST_PASS << endl;
 }
 

@@ -57,31 +57,34 @@ istream& operator>>(istream& istream, Date& date)
 
   int date_val {};
 
-  for (; date_val > 0 && date_val <= date.lastDay();) 
+  // extracts and validates month number into month_m from istream
+  // loops until a valid month is given
+  do
+  {
+    cout << "What is the current month of the year (numeric)?: ";
+    cout.flush();
+    istream >> date_val;
+  }
+  while (date_val < 1 || date_val > 12);
+  date.month_m = date_val;
+
+  // no invalid year restrictions
+  cout << "What is the current year?: ";
+  cout.flush();
+  istream >> date.year_m;
+
+  // extracts and validates day number into day_m from istream
+  // loops until a valid day is given
+  do 
   {
     cout << "What is the current day of the Month?: ";
     cout.flush();
     if (istream) istream.clear();
     istream >> date_val;
-  }
+  } 
+  while (date_val < 1 || date_val > date.lastDay()); 
   date.day_m = date_val;  
   date_val = 0;
-
-  for (; date_val > 0 && date_val <= 12;)
-  {
-    cout << "What is the current month of the year?: ";
-    cout.flush();
-    istream >> date_val;
-  }
-  date.month_m = date_val;
-
-  for (; date_val > 0 && date.year_m > 0;)
-  {
-    cout << "What is the current year?: ";
-    cout.flush();
-    istream >> date_val;
-  }
-  date.year_m = date_val;
 
   return istream;
 }
