@@ -45,6 +45,7 @@ long int operator-(Date& lhs, Date& rhs)
 
 ostream& operator<<(ostream& ostream, const Date& date) 
 {
+  // clears cout if failure state then outputs the date in the required format
   if (ostream) ostream.clear();
   ostream << date.getDateMDYAlphNum();
   return ostream;
@@ -52,6 +53,7 @@ ostream& operator<<(ostream& ostream, const Date& date)
 
 istream& operator>>(istream& istream, Date& date)
 {
+  // clears istream and cout if failure state 
   if (istream) istream.clear();
   if (cout) cout.clear();
 
@@ -65,13 +67,22 @@ istream& operator>>(istream& istream, Date& date)
     cout.flush();
     istream >> date_val;
   }
-  while (date_val < 1 || date_val > 12);
+  while (istream || date_val < 1 || date_val > 12);
   date.month_m = date_val;
 
-  // no invalid year restrictions
-  cout << "What is the current year?: ";
-  cout.flush();
-  istream >> date.year_m;
+  // gets the year number, clears istream if the user breaks it, queries again
+  // if the user breaks inputs invalid data.
+  do                             
+  {
+    // a bit redundant but works
+    if (istream) istream.clear();
+
+    // no invalid year restrictions
+    cout << "What is the current year?: ";
+    cout.flush();
+    istream >> date.year_m;
+  } 
+  while (istream);
 
   // extracts and validates day number into day_m from istream
   // loops until a valid day is given
@@ -79,6 +90,7 @@ istream& operator>>(istream& istream, Date& date)
   {
     cout << "What is the current day of the Month?: ";
     cout.flush();
+    // clear istream failure if there was one
     if (istream) istream.clear();
     istream >> date_val;
   } 

@@ -308,10 +308,14 @@ void streamOvldTest(void)
 void subOvldTest(void)
 {
   cout << SUB_OVLD_TEST;
+  // tests a small difference in num days, + and -
   Date lhs { 2014, 4, 18 }, rhs { 2014, 4, 10 };
   assert(lhs - rhs == 8);
   assert(rhs - lhs == -8);
 
+
+  // tests a large difference in num days, + and - 
+  // (one which handles leap years)
   lhs.setDate(2006, 2, 2);
   rhs.setDate(2003, 11, 10);
   assert(lhs - rhs == 815);

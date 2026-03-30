@@ -13,8 +13,7 @@ enum Months
   JANUARY = 1, FEBRUARY, MARCH,
   APRIL, MAY, JUNE,
   JULY, AUGUST, SEPTEMBER,
-  OCTOBER, NOVEMBER, DECEMBER,
-};
+  OCTOBER, NOVEMBER, DECEMBER, };
 
 /// array of the number of days in a month, 0 based indexing, i.e. january is at
 /// index zero, february is at index 1, etc...
@@ -42,16 +41,31 @@ public:
   /// 1st, 1900 is set. 
   Date(int year = 1900, int month = JANUARY, int day = 1);
 
+  
+  /// adds one to the day_m field, advancing the other fields as needed.
   Date& operator++(void);
+  
+  /// adds one to the day_m field, and returns the state previous to the
+  /// addition, advancing the other fields as needed.
   Date operator++(int);
 
+  /// subtracts one from the day_m field, reducing the other fields as needed.
   Date& operator--(void);
+
+  /// subtracts one from the day_m field, and returns the state previous to the
+  /// subtraction, reducing the other fields as needed.
   Date operator--(int);
 
+  /// returns the positive or negative number of days between the lhs Date and
+  /// rhs Date. 
   friend long int operator-(Date& lhs, Date& rhs);
 
+  /// outputs the given date to the given ostream in the following format: 
+  /// MonthString DayNumber, YearNumber
   friend std::ostream& operator<<(std::ostream& ostream, const Date& date);
 
+  /// reads values from istream into the date class for each member field,
+  /// repeating the prompt and read until valid input is recieved.
   friend std::istream& operator>>(std::istream& istream, Date& date);  
 
   /// - int year : the year portion of the date
@@ -74,7 +88,6 @@ public:
 
   /// returns the currently stored year member.
   int getYear() const;
-
 
   /// returns a string date in the following format: 
   /// MonthNumber/DayNumber/YearNumber
