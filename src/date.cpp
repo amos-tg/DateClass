@@ -43,8 +43,7 @@ long int operator-(Date& lhs, Date& rhs)
   return Date::getTotalDays(lhs) - Date::getTotalDays(rhs);
 } 
 
-
-ostream& operator<<(ostream& ostream, Date& date) 
+ostream& operator<<(ostream& ostream, const Date& date) 
 {
   if (ostream) ostream.clear();
   ostream << date.getDateMDYAlphNum();
@@ -213,7 +212,7 @@ int Date::lastDay(int year, int month)
   return month_num_days[month - 1];
 }
 
-bool Date::ymdValidate(int year, int month, int day) const 
+bool Date::ymdValidate(int year, int month, int day)
 {
   // check for all invalid months and for days before the first day of the month
   if (month > 12 || month < 1 || day < 1) 

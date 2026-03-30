@@ -50,7 +50,7 @@ public:
 
   friend long int operator-(Date& lhs, Date& rhs);
 
-  friend std::ostream& operator<<(std::ostream& ostream, Date& date);
+  friend std::ostream& operator<<(std::ostream& ostream, const Date& date);
 
   friend std::istream& operator>>(std::istream& istream, Date& date);  
 
@@ -120,7 +120,7 @@ private:
   /// Takes a year, month, and day argument and determines whether or not it
   /// represents a valid gregorian calendar date. Returns true for a valid
   /// date, and false for an invalid date.  
-  bool ymdValidate(int year, int month, int day) const; 
+  static bool ymdValidate(int year, int month, int day); 
 
   /// helper function for prefixed and postfixed ++ operators that adds a day
   /// to thedate.

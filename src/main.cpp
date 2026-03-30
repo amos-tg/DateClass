@@ -64,6 +64,14 @@ int main(void)
   
   // Date class output functions are all tested in testOutput which is called 
   // frequently in the above tests internally.
+  
+  // Overloading Extension Tests
+  // create a date using the default constructor and display it.
+  cout << Date {} << endl;
+
+  // create a date using the parameterized constructor and display it
+  cout << Date { 2005, AUGUST, 1 } << endl;
+
 
   return 0;
 }
@@ -145,7 +153,7 @@ void invalidConstructorTest(void)
   Date tested2 { 1900, JANUARY, 0 };
   assert(tested2.getDay() == 1);
   Date tested3 { 1900, JANUARY, 40 };
-  assert(tested3.getDay() == 40);
+  assert(tested3.getDay() == 1);
 
   // no invalid years defined for the project. 
   
