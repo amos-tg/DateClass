@@ -50,9 +50,9 @@ public:
 
   friend long int operator-(Date& lhs, Date& rhs);
 
-  friend Date& operator<<(std::ostream ostream, Date& date);
+  friend std::ostream& operator<<(std::ostream& ostream, Date& date);
 
-  friend Date& operator>>(std::istream istream, Date& date);  
+  friend std::istream& operator>>(std::istream& istream, Date& date);  
 
   /// - int year : the year portion of the date
   /// - int month : the month portion of the date
@@ -75,7 +75,6 @@ public:
   /// returns the currently stored year member.
   int getYear() const;
 
-  static long int getTotalDays(const Date&);
 
   /// returns a string date in the following format: 
   /// MonthNumber/DayNumber/YearNumber
@@ -130,6 +129,12 @@ private:
   /// helper function for prefixed and postfixed -- operators that subtracts a
   /// day from the date. 
   void subOneDay(void);
+
+  /// - const Date& date : constant lvalue reference to the date tallied. 
+  ///
+  /// helper function for operator- that returns the total number of calendar
+  /// days since the start of the gregorian calendar's common era.
+  static long int getTotalDays(const Date& date);
 };
 
 #endif

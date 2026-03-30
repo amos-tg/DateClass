@@ -10,32 +10,73 @@ Date::Date(int year, int month, int day)
   setDate(year, month, day);
 }
 
-Date& Date::operator++(void) {
+Date& Date::operator++(void) 
+{
   addOneDay();
   return *this;
 }
 
-Date Date::operator++(int) {
+Date Date::operator++(int) 
+{
   Date copy = *this;
   addOneDay();
   return copy;
 }
 
-Date& Date::operator--(void) {
+Date& Date::operator--(void) 
+{
   subOneDay();
   return *this;
 }
 
-Date Date::operator--(int) {
+Date Date::operator--(int) 
+{
   Date copy = *this;
   subOneDay();
+  return copy;
 }
 
-long int operator-(Date& lhs, Date& rhs) {
+long int operator-(Date& lhs, Date& rhs) 
+{
   // convert each date into a total number of days and subtract the smaller one
   // from the larger one  to get the number of days between them.
   return Date::getTotalDays(lhs) - Date::getTotalDays(rhs);
 } 
+
+
+ostream& operator<<(ostream& ostream, Date& date) 
+{
+  if (ostream) ostream.clear();
+  ostream << date.getDateMDYAlphNum();
+  return ostream;
+}
+
+istream& operator>>(istream& istream, Date& date)
+{
+  if (istream) istream.clear();
+  if (cout) cout.clear();
+
+  int date_val {};
+
+  for (; date_val > 0 && date_val <= date.lastDay();) 
+  {
+    cout << "What is the current day of the Month?: ";
+    cout.flush();
+    if (istream) istream.clear();
+    istream >> date_val;
+  }
+  date.day_m = date_val;  
+  date_val = 0;
+
+  for (; date_val > 0 && date_val <= 12;)
+  {
+    cout << "What is the current month of the year?: ";
+    cout.flush();
+    istream >> date.month_m;
+  }
+
+  return istream;
+}
 
 void Date::setDate(int year, int month, int day) 
 {
