@@ -136,7 +136,7 @@ long int Date::getTotalDays(const Date& date)
   for (int year { date.year_m }; year > 0; --year)
   {
     // handle leap years
-    if (date.isLeapYear())
+    if (Date::isLeapYear(year))
       total_days += 366;
     else 
       total_days += 365;
@@ -320,11 +320,15 @@ void Date::subOneDay(void)
     --year_m;
     month_m = 12;
     day_m = month_num_days[month_m - 1];
+
+    return;
   }
   else if (day_m == 1)
   {
     --month_m;
-    day_m = month_num_days[month_m -1];
+    day_m = month_num_days[month_m - 1];
+
+    return;
   }
 
   --day_m;

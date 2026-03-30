@@ -1,3 +1,5 @@
+/// Tests for the overloading part2 start at lineno:292
+
 #include "date.h"
 #include <iostream>
 #include <cassert>
@@ -8,6 +10,7 @@ using namespace std;
 
 const char *TEST_PASS = "Passed";
 
+// part one tests
 const char *DEFAULT_CONSTRUCTOR_TEST = 
   "Test (Default Date class constructor): ";
 const char *PARAM_CONSTRUCTOR_TEST = 
@@ -17,7 +20,13 @@ const char *INVALID_CONSTRUCTOR_TEST =
 const char *LEAP_YEAR_TEST = "Test (Date class isLeapYear methods): ";
 const char *EDGE_CASE_TEST = "Test (Date class common edge cases): ";
 const char *LAST_DAY_TEST = "Test (Date class lastDay methods): ";
-const char *SET_DATE_TEST = "Test (Date Class setDate method): ";
+const char *SET_DATE_TEST = "Test (Date class setDate method): ";
+
+// operator overloading extension tests
+const char *STREAM_OVLD_TEST = "Test (Date class operator<< overload): ";
+const char *SUB_OVLD_TEST = "Test (Date class operator- overload): ";
+const char *INC_DEC_OVLD_TEST = "Test (Date class operator{++,--} overloads): ";
+
 
 /// asserts that the output of all string returning output methods for the Date
 /// class align with expectations based on the given year month and day.
@@ -45,6 +54,15 @@ void lastDayTest(void);
 /// tests a variety of edge cases from the instructions
 void edgeCaseTest(void);
 
+/// tests the operator{<<,>>} overloads
+void streamOvldTest(void);
+
+/// tests the operator- overload
+void subOvldTest(void);
+
+/// tests the pre and postfixed ++ and -- operators. 
+void incDecOvldTest(void);
+
 int main(void) 
 {
   defaultConstructorTest();
@@ -66,12 +84,15 @@ int main(void)
   // frequently in the above tests internally.
   
   // Overloading Extension Tests
-  // create a date using the default constructor and display it.
-  cout << Date {} << endl;
+  streamOvldTest(); 
+  
+  subOvldTest();
 
-  // create a date using the parameterized constructor and display it
-  cout << Date { 2005, AUGUST, 1 } << endl;
+  incDecOvldTest();
 
+  // validation regression tests:
+  // Invalid dates are extensively tested in the original test set:
+  // (main.cpp, 159), (main.cpp, 166), (main.cpp, 189-210)
 
   return 0;
 }
@@ -267,5 +288,59 @@ void edgeCaseTest(void)
   // check that 2/30 is always invalid
   tested.setDate(2000, FEBRUARY, 30);
   testOutput(tested, 1900, JANUARY, 1);
+  cout << TEST_PASS << endl;
+}
+
+void streamOvldTest(void)
+{
+  cout << STREAM_OVLD_TEST << '\n';
+  // create a date using the default constructor and display it.
+  cout << Date {} << endl;
+
+  // create a date using the parameterized constructor and display it
+  cout << Date { 2005, AUGUST, 1 } << endl;
+  cout << TEST_PASS << endl;
+}
+
+void subOvldTest(void)
+{
+  cout << SUB_OVLD_TEST;
+  Date lhs { 2014, 4, 18 }, rhs { 2014, 4, 10 };
+  assert(lhs - rhs == 8);
+  assert(rhs - lhs == -8);
+
+  lhs.setDate(2006, 2, 2);
+  rhs.setDate(2003, 11, 10);
+  assert(lhs - rhs == 815);
+  assert(rhs - lhs == -815);
+  cout << TEST_PASS << endl;
+}
+
+void incDecOvldTest(void)
+{
+  cout << INC_DEC_OVLD_TEST;
+  Date test { 2024, 12, 31 };
+
+  test++;
+  assert(test.getDay() == 1);
+  assert(test.getMonth() == 1);
+  assert(test.getYear() == 2025);
+
+  test--;
+  cout << test << endl;
+  assert(test.getDay() == 31);
+  assert(test.getMonth() == 12);
+  assert(test.getYear() == 2024);
+
+  ++test;
+  assert(test.getDay() == 1);
+  assert(test.getMonth() == 1);
+  assert(test.getYear() == 2025);
+
+  test--;
+  assert(test.getDay() == 31);
+  assert(test.getMonth() == 12);
+  assert(test.getYear() == 2024);
+
   cout << TEST_PASS << endl;
 }
